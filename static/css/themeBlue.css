@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+
+/* COLOR
+============================== */
+/* Bar pointer */
+.color-pointer {
+	background-image: url(/static/img/pointer-blue.png);
+}
+
+/* Bar color */
+.color-bar {
+	background-image: url(/static/img/bar-blue.png);
+}
+
+/* Loader bar color */
+#jpreBar {
+	background: url(/static/img/bar-blue.png);
+}

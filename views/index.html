@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{{template "header"}}
+<title>磊哥的站点</title>
+</head>
+<body>
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Header -->
+	{{template "navbar" .}}
+        <!-- End Header -->
+            <!-- Content -->
+    <div id="content" class="inner">
+        <!-- Title -->
+        <h1 class="title-active">博客首页</h1>
+        <h1>博客列表</h1>
+        <h1>摄影作品</h1>
+        <h1>管理登录</h1>
+        <h1>CONTACT</h1>
+        <!-- End Title -->
+        <div id="content-wrapper">
+            <div id="content-header"></div> 
+            <!-- Content Header -->
+            <div id="content-core-wrapper">
+                <div id="content-core">
+                 <!-- Intro -->
+                {{template "intro" .}}
+                 <!-- End Intro -->             
+                 <!-- article -->
+                {{template "article" .}}
+                 <!-- End article -->                
+                 <!-- photo -->
+                {{template "photo" .}}
+                 <!-- End photo -->                  
+                 <!-- login -->
+                {{template "login" .}}
+                 <!-- End login -->
+                </div>
+            </div>
+            <div id="content-footer"></div> 
+            <!-- Content Footer -->            
+        </div>        
+        <!-- Social Media -->
+        {{template "social" .}}
+        <!-- End Social Media -->        
+    </div>
+    <!-- End Content -->    
+	<!-- Footer -->
+{{template "footer"}}
+	<!-- End Footer -->    
+</div>
+<!-- End Wrapper -->
+<!-- This section is for Splash Screen -->
+<div id="preloader-container">
+    <div id="preloader">
+        <div id="preloader-photo"><img src="/static/update/imges/me.jpg" alt="Photo of me" /></div>
+        <div id="preloader-title">
+        	<h1>PERSONAL VCARD</h1>
+            UX & INTERACTIVE DESIGNER
+        </div>
+    </div>
+</div>
+<div id="jSplash"></div>
+<!-- End of Splash Screen -->
+<!-- External script put in the bottom of the page to cut load time -->
+</body>
+</html>
