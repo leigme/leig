@@ -2,10 +2,16 @@ package models
 
 import (
 	"time"
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_"github.com/go-sql-driver/mysql"
 	"fmt"
 )
+
+func mysqlconfig() string { 
+	mysqlconfig := beego.AppConfig.String("mysqluser")+":"+beego.AppConfig.String("mysqlpwd")+"@"+"/"+beego.AppConfig.String("mysqldb")+"?charset="+beego.AppConfig.String("charset")
+	return mysqlconfig
+}
 
 type User struct {
 	Id int64
@@ -63,7 +69,7 @@ type Photos struct {
 
 func RegisterDB() {
 	orm.RegisterModel(new(User),new(Category_Articles),new(Articles),new(Photos),new(Category_Photos))
-	orm.RegisterDataBase("default", "mysql", "leig:leig2013@/leig?charset=utf8", 10)
+	orm.RegisterDataBase("default", "mysql", mysqlconfig(), 10)	
 }
 
 func SelectArticleAll() {
