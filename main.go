@@ -15,15 +15,16 @@ func init() {
 
 func main() {
 	//数据库建表
-	orm.Debug=true
+	orm.Debug = true
 	orm.RunSyncdb("default", false, true)
-	
+
 	//注册路由
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/login", &controllers.LoginController{})
 	beego.Router("/admin", &controllers.AdminController{})
 	beego.Router("/editphotosort", &controllers.EditphotosortController{})
 	beego.Router("/editblogsort", &controllers.EditblogsortController{})
+	beego.Router("/editphoto", &controllers.EditphotoController{})
 
 	//运行站点
 	beego.Run()

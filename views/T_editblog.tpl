@@ -3,12 +3,15 @@
 		<form method="POST" action="/">
 			<p>
 			<div class="row">
-				<select class="form-control">
-					
+				<select name="ArticleSort" class="form-control">
+					<option value ="">请选择文章分类</option>
+					{{range .ArticleSort}}
+					<option value ="{{.Id}}">{{.Title}}</option>
+					{{end}}
 				</select>
 			</div>
 			</p>
-			<p><div class="row"><input class="form-control" type="text" placeholder="输入博客名称" name="Blog"></div></p>
+			<p><div class="row"><input class="form-control" type="text" placeholder="输入博客名称" name="ArticleTitle"></div></p>
 			<p>
 			<div class="row">
 			<textarea class="xheditor-mini" name="content" style="width:100%" rows="15"></textarea>

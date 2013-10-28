@@ -3,7 +3,7 @@
                         <div class="flexslider">
                             <ul class="slides">
                                 <li><img src="/static/update/imges/slideshow1.png" alt="" /></li>
-                                <li><img src="http://leig.u.qiniudn.com/photos3576154113519502_jpg.jpg" alt="" width="780px" height="360px" /></li>
+                                <li><img src="http://leig.u.qiniudn.com/%E6%B5%B7%E6%B4%8B.jpg" alt="" width="780px" height="360px" /></li>
                             </ul>
                         </div>
                         
