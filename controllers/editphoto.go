@@ -14,10 +14,9 @@ func (this *EditphotoController) Post() {
 	phototitle := this.Input().Get("PhotoTitle")
 	photourl := this.Input().Get("PhotoUrl")
 	photosortid := this.Input().Get("PhotoSortId")
-	id, _ := strconv.ParseInt(photosortid, 10, 64)
-	ps, _ := models.GetPhotoSort(id)
-	models.AddPhoto(phototitle, photourl, &ps)
-	models.UpdataPhotoCount(id)
+	sid, _ := strconv.ParseInt(photosortid, 10, 64)
+	models.AddPhoto(phototitle, photourl, sid)
+	models.UpdataPhotoCount(sid)
 	this.Redirect("/admin?options=2", 301)
 }
 

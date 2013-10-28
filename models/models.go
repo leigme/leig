@@ -26,17 +26,16 @@ type ArticleSort struct {
 	Title   string
 	Created time.Time `orm:"index"`
 	Count   int64
-	Article *Article `orm:"reverse(one)"`
 }
 
 type Article struct {
-	Id          int64
-	Title       string
-	Content     string       `orm:"size(5000)"`
-	Created     time.Time    `orm:"index"`
-	Updated     time.Time    `orm:"index"`
-	Views       int64        `orm:"index"`
-	ArticleSort *ArticleSort `orm:"rel(one)"`
+	Id            int64
+	Title         string
+	Content       string    `orm:"size(5000)"`
+	Created       time.Time `orm:"index"`
+	Updated       time.Time `orm:"index"`
+	Views         int64     `orm:"index"`
+	ArticleSortId int64
 }
 
 type PhotoSort struct {
@@ -44,16 +43,15 @@ type PhotoSort struct {
 	Title   string
 	Created time.Time `orm:"index"`
 	Count   int64
-	Photo   *Photo `orm:"reverse(one)"`
 }
 
 type Photo struct {
-	Id        int64
-	Title     string
-	Created   time.Time `orm:"index"`
-	Views     int64     `orm:"index"`
-	Url       string
-	PhotoSort *PhotoSort `orm:"rel(one)"`
+	Id          int64
+	Title       string
+	Created     time.Time `orm:"index"`
+	Views       int64     `orm:"index"`
+	Url         string
+	PhotoSortId int64
 }
 
 //注册DB并连接数据库
@@ -179,13 +177,13 @@ func GetAllPhotos() ([]*Photo, error) {
 }
 
 //添加图片
-func AddPhoto(PhotoTitle string, PhotoUrl string, ps *PhotoSort) error {
+func AddPhoto(PhotoTitle string, PhotoUrl string, sid int64) error {
 	o := orm.NewOrm()
 	photo := &Photo{
-		Title:     PhotoTitle,
-		Url:       PhotoUrl,
-		Created:   time.Now(),
-		PhotoSort: ps,
+		Title:       PhotoTitle,
+		Url:         PhotoUrl,
+		Created:     time.Now(),
+		PhotoSortId: sid,
 	}
 	_, err := o.Insert(photo)
 	return err

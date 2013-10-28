@@ -14,6 +14,13 @@
                         
                         <!-- article Lists -->
                         <ul id="portfolio-list">
+                            {{range .Photos}}
+                            <li class="scenery">
+                                <a href="{{.Url}}" rel="lightbox[portfolio]" title="scenery">
+                                    <img src="{{.Url}}" width="145px" height="145px" alt="" />
+                                </a>
+                            </li>
+                            {{end}}
                             <li class="scenery">
                                 <a href="/static/update/imges/preview1.jpg" rel="lightbox[portfolio]" title="scenery">
                                     <img src="/static/update/imges/photo1.jpg" alt="" />
