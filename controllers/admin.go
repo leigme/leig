@@ -18,6 +18,7 @@ func (this *AdminController) Get() {
 	switch i {
 	case 1:
 		this.Data["ArticleSort"], _ = models.GetAllArticleSorts()
+		this.Data["Article"], _ = models.GetAllArticles()
 		this.Data["IsBlog"] = true
 	case 2:
 		this.Data["PhotoSort"], _ = models.GetAllPhotoSorts()

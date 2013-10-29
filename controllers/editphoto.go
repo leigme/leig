@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"leig/models"
 	"strconv"
@@ -21,5 +22,15 @@ func (this *EditphotoController) Post() {
 }
 
 func (this *EditphotoController) Get() {
+	id := this.Input().Get("id")
+	fmt.Println(id)
+	if len(id) == 0 {
+		return
+	}
+	cid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
 
+	}
+	models.DelPhoto(cid)
+	this.Redirect("/admin?options=2", 301)
 }

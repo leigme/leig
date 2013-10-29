@@ -94,7 +94,7 @@ lightbox = new Lightbox options
       }).append($('<div/>', {
         "class": 'lb-container'
       }).append($('<img/>', {
-        "class": 'lb-image'
+        "class": 'lb-image',"width":'800px',"height":'600px'
       }), $('<div/>', {
         "class": 'lb-nav'
       }).append($('<a/>', {
@@ -204,7 +204,7 @@ lightbox = new Lightbox options
         $image.attr('src', _this.album[imageNumber].link);
         $image.width = preloader.width;
         $image.height = preloader.height;
-        return _this.sizeContainer(preloader.width, preloader.height);
+        return _this.sizeContainer(800, 600);
       };
       preloader.src = this.album[imageNumber].link;
       this.currentImageIndex = imageNumber;

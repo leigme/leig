@@ -72,8 +72,11 @@ func GetAllArticleSorts() ([]*ArticleSort, error) {
 }
 
 //查询文章分类信息
-func GetArticleSort() {
-
+func GetArticleSort(id int64) (ArticleSort, error) {
+	o := orm.NewOrm()
+	sort := ArticleSort{Id: id}
+	err := o.Read(&sort)
+	return sort, err
 }
 
 //添加文章分类
@@ -103,17 +106,61 @@ func DelArticleSort(id int64) error {
 
 //获取所有文章
 func GetAllArticles() ([]*Article, error) {
+	o := orm.NewOrm()
+	articles := make([]*Article, 0)
+	_, err := o.QueryTable("Article").OrderBy("-Updated").All(&articles)
+	return articles, err
+}
 
-	return nil, nil
+//查询文章详细信息
+func GetArticle(id int64) (Article, error) {
+	o := orm.NewOrm()
+	article := Article{Id: id}
+	err := o.Read(&article)
+	return article, err
+}
+
+//查询首页文章详细信息
+func GetIndexArticle() (Article, error) {
+	o := orm.NewOrm()
+	var article Article
+	err := o.QueryTable("Article").OrderBy("-Created").One(&article)
+	return article, err
 }
 
 //添加文章
-func AddArticle(Article Article) error {
-	return nil
+func AddArticle(Title string, Content string, ArticleSortId int64) error {
+	o := orm.NewOrm()
+	article := &Article{
+		Title:         Title,
+		Content:       Content,
+		Created:       time.Now(),
+		Updated:       time.Now(),
+		ArticleSortId: ArticleSortId,
+	}
+	_, err := o.Insert(article)
+	return err
 }
 
+//删除文章
 func DelArticle(id int64) error {
-	return nil
+	o := orm.NewOrm()
+	article := &Article{Id: id}
+	_, err := o.Delete(article)
+	return err
+}
+
+//修改文章
+func UpdateArticle(id int64, Title string, Content string, ArticleSortId int64) error {
+	o := orm.NewOrm()
+	article := &Article{
+		Id:            id,
+		Title:         Title,
+		Content:       Content,
+		ArticleSortId: ArticleSortId,
+	}
+	_, err := o.Update(article)
+	return err
 }
 
 //---图片管理操作---
@@ -191,7 +238,11 @@ func AddPhoto(PhotoTitle string, PhotoUrl string, sid int64) error {
 
 //删除图片
 func DelPhoto(id int64) error {
-	return nil
+	o := orm.NewOrm()
+	fmt.Println("调用DEL方法！")
+	photo := &Photo{Id: id}
+	_, err := o.Delete(photo)
+	return err
 }
 
 //管理员登录

@@ -25,6 +25,7 @@ func main() {
 	beego.Router("/editphotosort", &controllers.EditphotosortController{})
 	beego.Router("/editblogsort", &controllers.EditblogsortController{})
 	beego.Router("/editphoto", &controllers.EditphotoController{})
+	beego.Router("/editarticle", &controllers.EditarticleController{})
 
 	//运行站点
 	beego.Run()

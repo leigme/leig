@@ -15,9 +15,8 @@
                             </div>
                         </div>
                     	<div class="two-three">
-                            <h2>我的小站</h2>
-                            <p>站点测试博客随便写的东西</p>
-                            <p>时间过的真快，都没来得及体验周末的时光～</p>
+                            <h2>{{.Article.Title}}</h2>
+                            {{str2html .Article.Content}}
                     	</div>                        
                         <div class="clearfix"></div>
                     </div>

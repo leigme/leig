@@ -5,21 +5,24 @@
                 <tr>
                     <th>编号</th>
                     <th>标题</th>
-                    <th>录入时间</th>
+                    <th>创建时间</th>
                     <th>编辑时间</th>
                     <th>浏览</th>
                     <th>分类</th>
                 </tr>
             </thead>
             <tbody>
-                {{range .article}}
+                {{range .Articles}}
+
                     <tr>
                         <th>{{.Id}}</th>
                         <th>{{.Title}}</th>
                         <th>{{.Created}}</th>
                         <th>{{.Updated}}</th>
                         <th>{{.Views}}</th>
-                        <th>{{.Category}}</th>
+                       
+                        <th></th>
+
                     </tr>
                 {{end}}
             </tbody>
