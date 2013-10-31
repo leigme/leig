@@ -1,26 +1,23 @@
 {{define "navbar"}}
-
-<div id="header">
-    	<div id="header-inner" class="inner">
-        	<ul id="menu">
-            	<li class="menu-list"><div id="menu-intro" class="menu-icon menu-active">Intro</div><a href="#" class="menu-hover">首页</a></li>
-            	<li class="menu-list menu-click"><div id="menu-resume" class="menu-icon">Intro</div><a href="#" class="menu-hover">列表</a></li>
-            	<li class="menu-list menu-click"><div id="menu-portfolio" class="menu-icon">Intro</div><a href="#" class="menu-hover">摄影</a></li>
-                {{if .Islogin}}
-                <li class="menu-list menu-click"><div id="menu-contact" class="menu-icon">Intro</div><a href="#" class="menu-hover">管理</a></li>
-                {{else}}
-            	<li class="menu-list menu-click"><div id="menu-contact" class="menu-icon">Intro</div><a href="#" class="menu-hover">登录</a></li>
-                {{end}}
-            </ul>           
-            <!-- Slider -->
-            <div id="menu-slider">
-                <div id="menu-slider-container">
-                    <div class="slider-bg bg-black"></div> <!-- Slider Background -->
-                    <div id="menu-slider-bar" class="slider-bar color-bar animate-bar"></div> <!-- Slider Bar -->
-                    <div id="menu-slider-pointer" class="slider-pointer color-pointer"></div> <!-- Slider Pointer -->
-                </div>
-            </div>
-            <!-- End Slider -->   
-        </div>
-    </div>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<ul class="nav nav-pills" style="padding-top:5px">
+						<li><a href="/">首页</a></li>
+						<li {{if .IsBlog}}class="active"{{end}}><a href="/admin?ob=blog">管理博客</a></li>
+						<li {{if .IsPhoto}}class="active"{{end}}><a href="/admin?ob=photo">管理照片</a></li>
+						<li {{if .IsSort}}class="active"{{end}}><a href="/admin?ob=sort">分类管理</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6 pull-right">
+					<div class="pull-right">
+					<ul class="nav nav-pills" style="padding-top:5px">
+						<li {{if .IsPwd}}class="active"{{end}}><a href="/admin?ob=pwd">修改密码</a></li>
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
 {{end}}

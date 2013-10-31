@@ -1,12 +1,61 @@
 <!DOCTYPE html>
-{{template "header"}}
-<title>磊哥的站点</title>
+<html lang="zh">
+<!--[if gte IE 9]>  <html class="ie9" lang="en">    <![endif]-->
+<!--[if gte IE 8]>  <html class="ie8" lang="en">    <![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="leig" />
+
+<!-- CSS  -->
+<link href="/static/css/master.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/themeBlue.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/flexslider.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/lightbox.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/jpreloader.css" rel="stylesheet" type="text/css" />
+
+<!-- Fonts  -->
+<link href="http://fonts.googleapis.com/css?family=Muli" rel="stylesheet" type="text/css" />
+
+<!-- Scripts  -->
+<script type="text/javascript" src="/static/js/jquery-1-7-2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="/static/js/lightbox.js"></script>
+<script type="text/javascript" src="/static/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/static/js/jpreLoader.min.js"></script>
+<script type="text/javascript" src="/static/js/custom.js"></script>
+<title>磊哥的小站</title>
 </head>
 <body>
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Header -->
-	{{template "navbar" .}}
+    <div id="header">
+        <div id="header-inner" class="inner">
+            <ul id="menu">
+                <li class="menu-list"><div id="menu-intro" class="menu-icon menu-active">Intro</div><a href="#" class="menu-hover">首页</a></li>
+                <li class="menu-list menu-click"><div id="menu-resume" class="menu-icon">Intro</div><a href="#" class="menu-hover">列表</a></li>
+                <li class="menu-list menu-click"><div id="menu-portfolio" class="menu-icon">Intro</div><a href="#" class="menu-hover">摄影</a></li>
+                {{if .Islogin}}
+                <li class="menu-list menu-click"><div id="menu-contact" class="menu-icon">Intro</div><a href="#" class="menu-hover">管理</a></li>
+                {{else}}
+                <li class="menu-list menu-click"><div id="menu-contact" class="menu-icon">Intro</div><a href="#" class="menu-hover">登录</a></li>
+                {{end}}
+            </ul>           
+            <!-- Slider -->
+            <div id="menu-slider">
+                <div id="menu-slider-container">
+                    <div class="slider-bg bg-black"></div> <!-- Slider Background -->
+                    <div id="menu-slider-bar" class="slider-bar color-bar animate-bar"></div> <!-- Slider Bar -->
+                    <div id="menu-slider-pointer" class="slider-pointer color-pointer"></div> <!-- Slider Pointer -->
+                </div>
+            </div>
+            <!-- End Slider -->   
+        </div>
+    </div>
         <!-- End Header -->
             <!-- Content -->
     <div id="content" class="inner">
@@ -23,16 +72,129 @@
             <div id="content-core-wrapper">
                 <div id="content-core">
                  <!-- Intro -->
-                {{template "intro" .}}
+               <div id="intro" class="content-list content-list-active">
+                        <div class="flexslider">
+                            <ul class="slides">
+                                <li><img src="/static/update/imges/slideshow1.png" alt="" /></li>
+                                <li><img src="http://leig.u.qiniudn.com/%E6%B5%B7%E6%B4%8B.jpg" alt="" width="780px" height="360px" /></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="full-three separator"></div>
+                        
+                        <div class="one-three">
+                            <div class="photo-frame">
+                                <img src="/static/update/imges/me.jpg" alt="Photo of me" />
+                            </div>
+                        </div>
+                        <div class="two-three">
+                            <h2>{{.Article.Title}}</h2>
+                            {{str2html .Article.Content}}
+                        </div>                        
+                        <div class="clearfix"></div>
+                    </div>
                  <!-- End Intro -->             
                  <!-- article -->
-                {{template "article" .}}
+                <div id="resume" class="content-list">
+        <table style="FONT-SIZE:15pt">
+            <thead>
+                <tr>
+                    <th>标题</th>
+                    <th>创建时间</th>
+                    <th>编辑时间</th>
+                    <th>浏览</th>
+                    <th>分类</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Articles}}
+                    <tr>
+                        <th><a href="/" target="_blank" >{{.Title}}</a></th>
+                        <th>{{.Created}}</th>
+                        <th>{{.Updated}}</th>
+                        <th>{{.Views}}</th>
+                        <th>{{.ArticleSort}}</th>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+        <script>
+        $(document).ready(
+            function() {
+                $("table tr:even").css("background","#E0EEE0");//偶数行，从0开始
+                $("table tr:odd").css("background","f9f9f9");//单数
+            }
+        );
+        </script>
+</div>
                  <!-- End article -->                
                  <!-- photo -->
-                {{template "photo" .}}
+               <div id="portfolio" class="content-list">
+                                         <!-- photo Filter -->
+                        <div id="portfolio-filter-container">
+                            <ul id="portfolio-filter">
+                                <li><a href="#" class="current" data-filter="*">全部</a></li>
+                                {{range .PhotoSort}}
+                                <li><a href="#" data-filter=".{{.Id}}">{{.Title}}</a></li>
+                                {{end}}
+                            </ul>
+                        </div>
+                        <!-- End photo Filter -->
+                        
+                        <!-- photo Lists -->
+                        <ul id="portfolio-list">
+                            {{range .Photos}}
+                            <li class="{{.PhotoSortId}}">
+                                <a href="{{.Url}}" rel="lightbox[portfolio]" title="{{.PhotoSortId}}">
+                                    <img src="{{.Url}}" width="145px" height="145px" alt="" />
+                                </a>
+                            </li>
+                            {{end}}
+                        </ul>
+                        <!-- End photo Lists -->                     
+                    </div>
                  <!-- End photo -->                  
                  <!-- login -->
-                {{template "login" .}}
+                <div id="contact" class="content-list content-contact">
+        <div class="full-three">
+        </div>
+        <div class="full-three separator"></div>
+        <div class="two-three">
+            {{if .Islogin}}
+                <h2>管理员已登录</h2>
+                <div style="padding-left:50%">
+                <div><input id="button1" name="button1 "type="button" onclick="location.href='/login'" class="btn" value="管理页面"></div>
+                <div><input id="button2" name="button2" type="button" onclick="location.href='/login?exit=true'" class="btn" value="退出登录"></div>
+                </div>
+            {{else}}
+                <h2>管理员登录</h2>
+                <form id="contact-form" method="POST" action="/login" />
+                    <div class="form-component">
+                        <h3>帐号</h3>
+                        <input type="text" class="input textfield" name="name" />
+                    </div> 
+                    <div class="form-component">
+                        <h3>密码</h3>
+                        <input type="password" class="input textfield" name="pwd" />
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="autologin">自动登录
+                    </div>
+                    <input type="submit" class="btn" value="登录"/>
+                </form>
+            {{end}}
+        </div>
+        <div class="one-three">
+            <h2>联系方式</h2>
+            <h3>QQ</h3>
+            <p>i@leig.me</p>
+            <h3>Email</h3>
+            <p>i@leig.me</p>
+            <h3>Web</h3>
+            <p>http://leig.me</p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
                  <!-- End login -->
                 </div>
             </div>
@@ -40,13 +202,21 @@
             <!-- Content Footer -->            
         </div>        
         <!-- Social Media -->
-        {{template "social" .}}
+       <div id="socmed">
+            <ul id="socmed-list">
+                <li><a href="https://plus.google.com/u/0/102850982369054106676/posts" target="_blank"><img src="/static/img/google.png" alt="Google" /></a></li>
+                <li><a href="http://weibo.com/leigme" target="_blank"><img src="/static/img/sina.png" alt="Sina" /></a></li>    
+            </ul>
+        </div>
         <!-- End Social Media -->        
     </div>
     <!-- End Content -->    
-	<!-- Footer -->
-{{template "footer"}}
-	<!-- End Footer -->    
+    <!-- Footer -->
+<div id="footer">
+        <div id="footer-inner" class="inner"> Copyright © leig 2013
+        </div>
+    </div>
+    <!-- End Footer -->    
 </div>
 <!-- End Wrapper -->
 <!-- This section is for Splash Screen -->
@@ -54,7 +224,7 @@
     <div id="preloader">
         <div id="preloader-photo"><img src="/static/update/imges/me.jpg" alt="Photo of me" /></div>
         <div id="preloader-title">
-        	<h1>PERSONAL VCARD</h1>
+            <h1>PERSONAL VCARD</h1>
             UX & INTERACTIVE DESIGNER
         </div>
     </div>

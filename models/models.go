@@ -8,12 +8,14 @@ import (
 	"time"
 )
 
+//数据库配置文件获取
 func mysqlconfig() string {
 	mysqlconfig := beego.AppConfig.String("mysqluser") + ":" + beego.AppConfig.String("mysqlpwd") + "@" + "/" + beego.AppConfig.String("mysqldb") + "?charset=" + beego.AppConfig.String("charset")
 	fmt.Println("读取配置文件，拼接数据库连接语句！")
 	return mysqlconfig
 }
 
+//系统管理员
 type User struct {
 	Id       int64
 	Username string
@@ -21,6 +23,7 @@ type User struct {
 	Nickname string
 }
 
+//文章分类
 type ArticleSort struct {
 	Id      int64
 	Title   string
@@ -28,6 +31,7 @@ type ArticleSort struct {
 	Count   int64
 }
 
+//文章表
 type Article struct {
 	Id            int64
 	Title         string
@@ -38,6 +42,7 @@ type Article struct {
 	ArticleSortId int64
 }
 
+//图片分类
 type PhotoSort struct {
 	Id      int64
 	Title   string
@@ -45,6 +50,7 @@ type PhotoSort struct {
 	Count   int64
 }
 
+//图片表
 type Photo struct {
 	Id          int64
 	Title       string
@@ -245,7 +251,7 @@ func DelPhoto(id int64) error {
 	return err
 }
 
-//管理员登录
+//管理员查询
 func Estimate(name string) string {
 	o := orm.NewOrm()
 	user := User{Username: name}

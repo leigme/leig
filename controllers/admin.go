@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"leig/models"
 	"strconv"
@@ -11,26 +12,103 @@ type AdminController struct {
 }
 
 func (this *AdminController) Get() {
-	var isEdit string
-	var i int64
-	isEdit = this.Input().Get("options")
-	i, _ = strconv.ParseInt(isEdit, 10, 64)
-	switch i {
-	case 1:
-		this.Data["ArticleSort"], _ = models.GetAllArticleSorts()
-		this.Data["Article"], _ = models.GetAllArticles()
-		this.Data["IsBlog"] = true
-	case 2:
-		this.Data["PhotoSort"], _ = models.GetAllPhotoSorts()
-		this.Data["Photo"], _ = models.GetAllPhotos()
-		this.Data["IsPhoto"] = true
-	case 3:
-		this.Data["IsSort"] = true
-		this.Data["ArticleSort"], _ = models.GetAllArticleSorts()
-		this.Data["PhotoSort"], _ = models.GetAllPhotoSorts()
-	case 4:
-		this.Data["IsPwd"] = true
+	object := this.Input().Get("ob")
+	operating := this.Input().Get("op")
+	id, _ := strconv.ParseInt(this.Input().Get("id"), 10, 64)
+	if object == "" {
+		fmt.Println("没有获取管理对象！")
+	} else {
+		switch object {
+		case "blog":
+			this.Data["IsBlog"] = true
+			this.Data["ArticleSort"], _ = models.GetAllArticleSorts()
+			this.Data["Article"], _ = models.GetAllArticles()
+			if operating == "" {
+				this.Data["IsEditArticle"] = true
+				this.TplNames = "admin.html"
+				fmt.Println("切换到指定管理页面！")
+			} else {
+				switch operating {
+				case "add":
+					this.Data["IsAddArticle"] = true
+					this.TplNames = "admin.html"
+					return
+				case "del":
+					err := models.DelArticle(id)
+					if err == nil {
+						err.Error()
+					}
+				case "update":
+				}
+				this.TplNames = "admin.html"
+			}
+		case "photo":
+			this.Data["IsPhoto"] = true
+			this.Data["PhotoSort"], _ = models.GetAllPhotoSorts()
+			this.Data["Photo"], _ = models.GetAllPhotos()
+			if operating == "" {
+				fmt.Println("切换到指定管理页面！")
+			} else {
+				switch operating {
+				case "add":
+
+					this.TplNames = "admin.html"
+					return
+				case "del":
+					err := models.DelPhoto(id)
+					if err == nil {
+						err.Error()
+					}
+				case "update":
+				}
+				this.TplNames = "admin.html"
+			}
+		case "sort":
+			this.Data["IsSort"] = true
+			this.Data["ArticleSort"], _ = models.GetAllArticleSorts()
+			this.Data["PhotoSort"], _ = models.GetAllPhotoSorts()
+		case "pwd":
+			this.Data["IsPwd"] = true
+		}
+		this.TplNames = "admin.html"
+		return
 	}
-	this.TplNames = "admin.html"
+}
+
+func (this *AdminController) AddArticle() {
+	Title := this.Input().Get("ArticleTitle")
+	Content := this.Input().Get("ArticleContent")
+	ArticleSortId := this.Input().Get("ArticleSort")
+	id, _ := strconv.ParseInt(ArticleSortId, 10, 64)
+	models.AddArticle(Title, Content, id)
+	this.Redirect("/admin?ob=blog", 302)
 	return
+}
+
+func (this *AdminController) AddArticleSort() {
+	fmt.Println("试试看")
+}
+
+func (this *AdminController) AddPhoto() {
+	fmt.Println("试试看")
+}
+
+func (this *AdminController) AddPhotoSort() {
+	fmt.Println("试试看")
+}
+
+func (this *AdminController) UpdateArticle() {
+	fmt.Println("试试看")
+}
+
+func (this *AdminController) UpdateArticleSort() {
+	fmt.Println("试试看")
+}
+
+func (this *AdminController) UpdatePhoto() {
+	fmt.Println("试试看")
+}
+
+func (this *AdminController) UpdatePhotoSort() {
+	fmt.Println("试试看")
 }

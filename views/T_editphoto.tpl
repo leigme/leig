@@ -30,7 +30,7 @@
 			<td>{{.Views}}</td>
 			<td>{{.Url}}</td>
 			<td>
-				<a href="/editphoto?op=del&id={{.Id}}">删除</a>
+				<a href="/admin?ob=photo&op=del&id={{.Id}}">删除</a>
 			</td>
 		</tr>
 		{{end}}

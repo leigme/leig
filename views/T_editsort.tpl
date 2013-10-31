@@ -22,7 +22,7 @@
 					<td>{{.Title}}</td>
 					<td>{{.Count}}</td>
 					<td>
-						<a href="/editblogsort?op=del&id={{.Id}}">删除</a>
+						<a href="/admin?ob=blog&op=del&id={{.Id}}">删除</a>
 					</td>
 				</tr>
 				{{end}}

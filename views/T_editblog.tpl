@@ -1,27 +1,32 @@
-{{define "editblog"}}
+{{define "editarticle"}}
 	<div class="controls">
-		<form method="POST" action="/editarticle">
-			<p>
-			<div class="row">
-				<select name="ArticleSort" class="form-control">
-					<option value ="">请选择文章分类</option>
-					{{range .ArticleSort}}
-					<option value ="{{.Id}}">{{.Title}}</option>
-					{{end}}
-				</select>
+		<div class="row">
+			<div class="col-md-3">
+				<button type="button" class="btn btn-primary" onClick="location.href='admin?ob=blog&op=add'">添加文章</button>
 			</div>
-			</p>
-			<p><div class="row"><input class="form-control" type="text" placeholder="输入博客名称" name="ArticleTitle"></div></p>
-			<p>
-			<div class="row">
-			<textarea class="xheditor-mini" name="ArticleContent" style="width:100%" rows="15"></textarea>
+			<div class="col-md-9">
+				<div class="row">
+					<form class="form-inline" role="form">
+						<div class="col-md-4">
+							<select name="PhotoSortId" class="form-control">
+								<option value ="">请选择文章分类</option>
+									{{range .PhotoSort}}
+										<option value ="{{.Id}}">{{.Title}}</option>
+									{{end}}
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label class="sr-only">博客名称</label>
+							<input class="form-control" placeholder="博客名称">
+						</div>
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-default">查询</button>
+						</div>
+					</form>
+				</div>
 			</div>
-			</p>
-			<p>
-				<button type="submit" class="btn btn-primary">提交</button>
-				<button type="button" class="btn btn-default">重置</button>
-			</p>
-		</form>
+		</div>
+		<hr />		
 		<table class="table table-striped">
 	<thead>
 		<tr>
@@ -37,7 +42,7 @@
 			<td>{{.Updated}}</td>
 			<td>{{.Views}}</td>
 			<td>
-				<a href="/editphoto?op=del&id={{.Id}}">删除</a>
+				<a href="/admin?ob=blog&op=del&id={{.Id}}">删除</a>
 			</td>
 		</tr>
 		{{end}}

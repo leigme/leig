@@ -22,6 +22,7 @@ func main() {
 	beego.Router("/", &controllers.MainController{})
 	beego.Router("/login", &controllers.LoginController{})
 	beego.Router("/admin", &controllers.AdminController{})
+	beego.AutoRouter(&controllers.AdminController{})
 	beego.Router("/editphotosort", &controllers.EditphotosortController{})
 	beego.Router("/editblogsort", &controllers.EditblogsortController{})
 	beego.Router("/editphoto", &controllers.EditphotoController{})

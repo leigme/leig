@@ -19,7 +19,8 @@ func (this *LoginController) Get() {
 		return
 	} else {
 		this.Data["IsBlog"] = true
-		this.Data["ArticleSort"], _ = models.GetAllArticleSorts()
+		this.Data["IsEditArticle"] = true
+		this.Data["Article"], _ = models.GetAllArticles()
 		this.TplNames = "admin.html"
 		return
 	}
@@ -41,7 +42,8 @@ func (this *LoginController) Post() {
 			this.Ctx.SetCookie("uname", uname, maxAge, "/")
 			this.Ctx.SetCookie("pwd", pwd, maxAge, "/")
 			this.Data["IsBlog"] = true
-			this.Data["ArticleSort"], _ = models.GetAllArticleSorts()
+			this.Data["IsEditArticle"] = true
+			this.Data["Article"], _ = models.GetAllArticles()
 			this.TplNames = "admin.html"
 			return
 		}

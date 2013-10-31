@@ -1,0 +1,26 @@
+{{define "addarticle"}}
+	<form method="POST" action="/admin/add">
+		<p>
+			<div class="row">
+				<select name="ArticleSort" class="form-control">
+					<option value ="">请选择文章分类</option>
+						{{range .ArticleSort}}
+							<option value ="{{.Id}}">{{.Title}}</option>
+						{{end}}
+				</select>
+			</div>
+		</p>
+		<p>
+			<div class="row"><input class="form-control" type="text" placeholder="输入博客名称" name="ArticleTitle"></div>
+		</p>
+		<p>
+			<div class="row">
+			<textarea class="xheditor-mini" name="ArticleContent" style="width:100%" rows="15"></textarea>
+			</div>
+		</p>
+		<p>
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="button" class="btn btn-default">重置</button>
+		</p>
+	</form>
+{{end}}
