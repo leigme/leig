@@ -20,6 +20,7 @@ func (this *LoginController) Get() {
 	} else {
 		this.Data["IsBlog"] = true
 		this.Data["IsEditArticle"] = true
+		this.Data["ArticleSorts"], _ = models.GetAllArticleSorts()
 		this.Data["Article"], _ = models.GetAllArticles()
 		this.TplNames = "admin.html"
 		return
@@ -43,6 +44,7 @@ func (this *LoginController) Post() {
 			this.Ctx.SetCookie("pwd", pwd, maxAge, "/")
 			this.Data["IsBlog"] = true
 			this.Data["IsEditArticle"] = true
+			this.Data["ArticleSorts"], _ = models.GetAllArticleSorts()
 			this.Data["Article"], _ = models.GetAllArticles()
 			this.TplNames = "admin.html"
 			return

@@ -8,9 +8,9 @@
 				<div class="row">
 					<form class="form-inline" role="form">
 						<div class="col-md-4">
-							<select name="PhotoSortId" class="form-control">
+							<select name="ArticleSortId" class="form-control">
 								<option value ="">请选择文章分类</option>
-									{{range .PhotoSort}}
+									{{range .ArticleSorts}}
 										<option value ="{{.Id}}">{{.Title}}</option>
 									{{end}}
 							</select>

@@ -93,11 +93,11 @@ func AddArticleSort(name string) error {
 	qs := o.QueryTable("ArticleSort")
 	err := qs.Filter("title", name).One(sort)
 	if err == nil {
-		return err
+		err.Error()
 	}
 	_, err = o.Insert(sort)
 	if err != nil {
-		return err
+		err.Error()
 	}
 	return err
 }
