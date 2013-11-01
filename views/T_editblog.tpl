@@ -40,7 +40,7 @@
 			<td><a href="/admin?ob=blog&op=update&id={{.Id}}">{{.Title}}</a></td>
 			<td>{{.Created}}</td>
 			<td>{{.Updated}}</td>
-			<td></td>
+			<td>{{.ArticleSort}}</td>
 			<td>{{.Views}}</td>
 			<td>
 				<a href="/admin?ob=blog&op=del&id={{.Id}}">删除</a>

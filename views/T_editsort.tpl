@@ -22,7 +22,7 @@
 					<td>{{.Title}}</td>
 					<td>{{.Count}}</td>
 					<td>
-						<a href="/admin?ob=blog&op=del&id={{.Id}}">删除</a>
+						<a href="/admin?ob=sort&op=delarticle&id={{.Id}}">删除</a>
 					</td>
 				</tr>
 				{{end}}
@@ -53,7 +53,7 @@
 					<td>{{.Title}}</td>
 					<td>{{.Count}}</td>
 					<td>
-						<a href="/editphotosort?op=del&id={{.Id}}">删除</a>
+						<a href="/admin?ob=sort&op=delphoto&id={{.Id}}">删除</a>
 					</td>
 				</tr>
 				{{end}}

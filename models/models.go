@@ -77,14 +77,6 @@ func GetAllArticleSorts() ([]*ArticleSort, error) {
 	return sorts, err
 }
 
-//查询文章分类信息
-func GetArticleSort(id int64) (ArticleSort, error) {
-	o := orm.NewOrm()
-	sort := ArticleSort{Id: id}
-	err := o.Read(&sort)
-	return sort, err
-}
-
 //添加文章分类
 func AddArticleSort(name string) error {
 	o := orm.NewOrm()
@@ -107,6 +99,32 @@ func DelArticleSort(id int64) error {
 	o := orm.NewOrm()
 	sort := &ArticleSort{Id: id}
 	_, err := o.Delete(sort)
+	return err
+}
+
+//查询文章分类信息
+func GetArticleSort(id int64) (ArticleSort, error) {
+	o := orm.NewOrm()
+	sort := ArticleSort{Id: id}
+	err := o.Read(&sort)
+	return sort, err
+}
+
+//更新文章分类信息
+func UpdateArticleSort(id int64, name string) error {
+	o := orm.NewOrm()
+	articlesort := ArticleSort{Id: id}
+	articlesort.Title = name
+	_, err := o.Update(&articlesort, "Title")
+	return err
+}
+
+//更新文章分类统计
+func UpdateArticleSortCount(id int64, count int64) error {
+	o := orm.NewOrm()
+	articlesort := ArticleSort{Id: id}
+	articlesort.Count = count + 1
+	_, err := o.Update(&articlesort, "Count")
 	return err
 }
 
@@ -153,21 +171,29 @@ func DelArticle(id int64) error {
 	o := orm.NewOrm()
 	article := &Article{Id: id}
 	_, err := o.Delete(article)
+
 	return err
 }
 
 //修改文章
-func UpdateArticle(Id int64, Title string, Content string, ArticleSortId int64) {
+func UpdateArticle(id int64, name string, content string, asid int64) error {
 	o := orm.NewOrm()
-	article := Article{Id: Id}
-	if o.Read(&article) == nil {
-		article.Title = Title
-		article.Content = Content
-		article.Updated = time.Now()
-		article.ArticleSortId = ArticleSortId
-		o.Update(&article, "Title", "Content", "Updated", "ArticleSortId")
-		fmt.Println("调用修改方法")
-	}
+	article := Article{Id: id}
+	article.Title = name
+	article.Content = content
+	article.Updated = time.Now()
+	article.ArticleSortId = asid
+	_, err := o.Update(&article, "Title", "Content", "Updated", "ArticleSortId")
+	return err
+}
+
+//更新文章浏览数
+func UpdateArticleViews(id int64, veiws int64) error {
+	o := orm.NewOrm()
+	article := Article{Id: id}
+	article.Views = veiws + 1
+	_, err := o.Update(&article, "Views")
+	return err
 }
 
 //---图片管理操作---
@@ -178,14 +204,6 @@ func GetAllPhotoSorts() ([]*PhotoSort, error) {
 	qs := o.QueryTable("PhotoSort")
 	_, err := qs.All(&sorts)
 	return sorts, err
-}
-
-//获取图片分类信息
-func GetPhotoSort(id int64) (PhotoSort, error) {
-	o := orm.NewOrm()
-	sort := PhotoSort{Id: id}
-	err := o.Read(&sort)
-	return sort, err
 }
 
 //添加图片分类
@@ -210,16 +228,29 @@ func DelPhotoSort(id int64) error {
 	return err
 }
 
-//更新图片分类统计数
-func UpdataPhotoCount(id int64) {
+//获取图片分类信息
+func GetPhotoSort(id int64) (PhotoSort, error) {
 	o := orm.NewOrm()
 	sort := PhotoSort{Id: id}
-	if o.Read(&sort) == nil {
-		sort.Title = sort.Title
-		sort.Created = sort.Created
-		sort.Count = sort.Count + 1
-		o.Update(&sort)
-	}
+	err := o.Read(&sort)
+	return sort, err
+}
+
+func UpdatePhotoSort(id int64, name string) error {
+	o := orm.NewOrm()
+	photosort := PhotoSort{Id: id}
+	photosort.Title = name
+	_, err := o.Update(&photosort, "Title")
+	return err
+}
+
+//更新图片分类统计数
+func UpdataPhotoSortCount(id int64, count int64) error {
+	o := orm.NewOrm()
+	photosort := PhotoSort{Id: id}
+	photosort.Count = count + 1
+	_, err := o.Update(&photosort, "Count")
+	return err
 }
 
 //获取所有图片
@@ -246,9 +277,25 @@ func AddPhoto(PhotoTitle string, PhotoUrl string, sid int64) error {
 //删除图片
 func DelPhoto(id int64) error {
 	o := orm.NewOrm()
-	fmt.Println("调用DEL方法！")
 	photo := &Photo{Id: id}
 	_, err := o.Delete(photo)
+	return err
+}
+
+func GetPhoto(id int64) (Photo, error) {
+	o := orm.NewOrm()
+	photo := Photo{Id: id}
+	err := o.Read(&photo)
+	return photo, err
+}
+
+func UpdatePhoto(id int64, name string, url string, psi int64) error {
+	o := orm.NewOrm()
+	photo := Photo{Id: id}
+	photo.Title = name
+	photo.Url = url
+	photo.PhotoSortId = psi
+	_, err := o.Update(&photo, "Title", "Url", "PhotoSortId")
 	return err
 }
 
