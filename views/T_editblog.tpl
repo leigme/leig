@@ -30,16 +30,17 @@
 		<table class="table table-striped">
 	<thead>
 		<tr>
-			<td>#</td><td>标题</td><td>创建时间</td><td>修改时间</td><td>浏览</td><td>操作</td>
+			<td>#</td><td>标题</td><td>创建时间</td><td>最后更新时间</td><td>分类</td><td>浏览</td><td>操作</td>
 		</tr>
 	</thead>
 	<tbody>
 		{{range .Article}}
 		<tr>
 			<td>{{.Id}}</td>
-			<td><a href="/">{{.Title}}</a></td>
+			<td><a href="/admin?ob=blog&op=update&id={{.Id}}">{{.Title}}</a></td>
 			<td>{{.Created}}</td>
 			<td>{{.Updated}}</td>
+			<td></td>
 			<td>{{.Views}}</td>
 			<td>
 				<a href="/admin?ob=blog&op=del&id={{.Id}}">删除</a>

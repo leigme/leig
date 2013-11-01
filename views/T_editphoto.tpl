@@ -1,10 +1,10 @@
 {{define "editphoto"}}
 <div class="controls">
 	<form method="POST" action="/editphoto">
-		<p><input class="form-control" type="text" placeholder="输入图片名称" name="PhotoTitle"></p>
-		<p><input class="form-control" type="text" placeholder="输入外链地址" name="PhotoUrl"></p>
+		<p><input class="form-control" type="text" placeholder="输入图片名称" name="phototitle"></p>
+		<p><input class="form-control" type="text" placeholder="输入外链地址" name="photourl"></p>
 		<p>
-			<select name="PhotoSortId" class="form-control">
+			<select name="photosortid" class="form-control">
 				<option value ="">请选择图片分类</option>
 				{{range .PhotoSort}}
 				<option value ="{{.Id}}">{{.Title}}</option>

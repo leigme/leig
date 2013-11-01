@@ -1,0 +1,54 @@
+{{define "article"}}
+	{{if .IsAddArticle}}
+		<form method="POST" action="/admin/ActionAddArticle">
+			<p>
+				<div class="row">
+					<select name="ArticleSort" class="form-control">
+						<option value ="">请选择文章分类</option>
+							{{range .ArticleSorts}}
+								<option value ="{{.Id}}">{{.Title}}</option>
+							{{end}}
+					</select>
+				</div>
+			</p>
+			<p>
+				<div class="row"><input name="ArticleTitle" class="form-control" type="text" placeholder="输入博客名称"></div>
+			</p>
+			<p>
+				<div class="row">
+				<textarea name="ArticleContent" class="xheditor-mini" style="width:100%" rows="15"></textarea>
+				</div>
+			</p>
+			<p>
+				<button type="submit" class="btn btn-primary">提交</button>
+				<button type="button" class="btn btn-default">重置</button>
+			</p>
+		</form>
+	{{else}}
+		<form method="POST" action="/admin/ActionUpdateArticle">
+			<p>
+				<div class="row">
+					<select name="ArticleSort" class="form-control">
+						<option value ="{{.SortId}}">{{.SortTitle}}</option>
+							{{range .ArticleSorts}}
+								<option value ="{{.Id}}">{{.Title}}</option>
+							{{end}}
+					</select>
+				</div>
+			</p>
+			<input name="ArticleId" class="form-control" type="hidden" value="{{.ArticleId}}">
+			<p>
+				<div class="row"><input name="ArticleTitle" class="form-control" type="text" value="{{.Title}}"></div>
+			</p>
+			<p>
+				<div class="row">
+				<textarea name="ArticleContent" class="xheditor-mini" style="width:100%" rows="15" >{{.Content}}</textarea>
+				</div>
+			</p>
+			<p>
+				<button type="submit" class="btn btn-primary">提交</button>
+				<button type="button" class="btn btn-default">重置</button>
+			</p>
+		</form>
+	{{end}}
+{{end}}

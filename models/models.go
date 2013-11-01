@@ -157,16 +157,17 @@ func DelArticle(id int64) error {
 }
 
 //修改文章
-func UpdateArticle(id int64, Title string, Content string, ArticleSortId int64) error {
+func UpdateArticle(Id int64, Title string, Content string, ArticleSortId int64) {
 	o := orm.NewOrm()
-	article := &Article{
-		Id:            id,
-		Title:         Title,
-		Content:       Content,
-		ArticleSortId: ArticleSortId,
+	article := Article{Id: Id}
+	if o.Read(&article) == nil {
+		article.Title = Title
+		article.Content = Content
+		article.Updated = time.Now()
+		article.ArticleSortId = ArticleSortId
+		o.Update(&article, "Title", "Content", "Updated", "ArticleSortId")
+		fmt.Println("调用修改方法")
 	}
-	_, err := o.Update(article)
-	return err
 }
 
 //---图片管理操作---

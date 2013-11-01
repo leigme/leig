@@ -10,14 +10,16 @@
 				{{template "navbar" .}}
 			</div>
 			<div class="row" style="padding-top:5%">
-				<div class="col-md-2">
-				</div>
-				<div class="col-md-8">
+				<div class="col-md-1"></div>
+				<div class="col-md-10">
 					{{if .IsEditArticle}}
 						{{template "editarticle" .}}
 					{{end}}
 					{{if .IsAddArticle}}
-						{{template "addarticle" .}}
+						{{template "article" .}}
+					{{end}}
+					{{if .IsUpdate}}
+						{{template "article" .}}
 					{{end}}
 					{{if .IsPhoto}}
 						{{template "editphoto" .}}
@@ -29,8 +31,7 @@
 						{{template "editpwd" .}}
 					{{end}}
 				</div>
-				<div class="col-md-2">
-				</div>
+				<div class="col-md-1"></div>
 			</div>
 		</div>
 	</body>

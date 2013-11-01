@@ -14,7 +14,6 @@ type AdminController struct {
 func (this *AdminController) Get() {
 	object := this.Input().Get("ob")
 	operating := this.Input().Get("op")
-	id, _ := strconv.ParseInt(this.Input().Get("id"), 10, 64)
 	if object == "" {
 		fmt.Println("没有获取管理对象！")
 		this.Redirect("/", 302)
@@ -23,100 +22,184 @@ func (this *AdminController) Get() {
 		switch object {
 		case "blog":
 			this.Data["IsBlog"] = true
-			this.Data["ArticleSorts"], _ = models.GetAllArticleSorts()
-			this.Data["Article"], _ = models.GetAllArticles()
+			articlesorts, errs := models.GetAllArticleSorts()
+			if errs != nil {
+				errs.Error()
+				this.Redirect("/", 302)
+				return
+			}
+			this.Data["ArticleSorts"] = articlesorts
+			article, erra := models.GetAllArticles()
+			if erra != nil {
+				erra.Error()
+				this.Redirect("/", 302)
+				return
+			}
+			this.Data["Article"] = article
 			if operating == "" {
 				this.Data["IsEditArticle"] = true
-				this.TplNames = "admin.html"
-				fmt.Println("切换到指定管理页面！")
 			} else {
 				switch operating {
 				case "add":
 					this.Data["IsAddArticle"] = true
-					this.TplNames = "admin.html"
 				case "del":
+					Aid := this.Input().Get("id")
+					id, _ := strconv.ParseInt(Aid, 10, 64)
 					err := models.DelArticle(id)
-					if err == nil {
+					if err != nil {
 						err.Error()
+						this.Redirect("/", 302)
+						return
 					}
 				case "update":
+					this.Data["IsUpdate"] = true
+					Aid := this.Input().Get("id")
+					id, _ := strconv.ParseInt(Aid, 10, 64)
+					articlesorts, err := models.GetAllArticleSorts()
+					if err != nil {
+						err.Error()
+						this.Redirect("/", 302)
+						return
+					}
+					this.Data["ArticleSorts"] = articlesorts
+					article, erra := models.GetArticle(id)
+					if erra != nil {
+						erra.Error()
+						this.Redirect("/", 302)
+						return
+					}
+					this.Data["ArticleId"] = Aid
+					this.Data["Title"] = article.Title
+					this.Data["Content"] = article.Content
+					articlesort, errs := models.GetArticleSort(article.ArticleSortId)
+					if errs != nil {
+						errs.Error()
+						this.Redirect("/", 302)
+						return
+					}
+					this.Data["SortId"] = articlesort.Id
+					this.Data["SortTitle"] = articlesort.Title
 				}
-				this.TplNames = "admin.html"
 			}
 		case "photo":
 			this.Data["IsPhoto"] = true
 			this.Data["PhotoSort"], _ = models.GetAllPhotoSorts()
 			this.Data["Photo"], _ = models.GetAllPhotos()
 			if operating == "" {
-				fmt.Println("切换到指定管理页面！")
+
 			} else {
 				switch operating {
 				case "add":
 
-					this.TplNames = "admin.html"
-
 				case "del":
+					Pid := this.Input().Get("id")
+					id, _ := strconv.ParseInt(Pid, 10, 64)
 					err := models.DelPhoto(id)
 					if err == nil {
-						err.Error()
+
 					}
+					err.Error()
 				case "update":
 				}
-				this.TplNames = "admin.html"
+
 			}
 		case "sort":
 			this.Data["IsSort"] = true
 			this.Data["ArticleSorts"], _ = models.GetAllArticleSorts()
 			this.Data["PhotoSorts"], _ = models.GetAllPhotoSorts()
-			this.TplNames = "admin.html"
 		case "pwd":
 			this.Data["IsPwd"] = true
 		}
 		this.TplNames = "admin.html"
-
 	}
 }
 
-func (this *AdminController) AddArticle() {
+func (this *AdminController) ActionAddArticle() {
 	Title := this.Input().Get("ArticleTitle")
 	Content := this.Input().Get("ArticleContent")
 	ArticleSortId := this.Input().Get("ArticleSort")
-	id, _ := strconv.ParseInt(ArticleSortId, 10, 64)
-	if Title != "" && Content != "" && id != 0 {
+	if Title != "" && Content != "" && ArticleSortId != "" {
+		id, _ := strconv.ParseInt(ArticleSortId, 10, 64)
 		models.AddArticle(Title, Content, id)
+		this.Data["IsBlog"] = true
+		this.Data["ArticleSorts"], _ = models.GetAllArticleSorts()
+		this.Data["Article"], _ = models.GetAllArticles()
+		this.TplNames = "admin.html"
 	}
 	this.Redirect("/admin?ob=blog", 302)
 	return
 }
 
-func (this *AdminController) AddArticleSort() {
-	fmt.Println("自动路由调用AddArticleSort方法")
+func (this *AdminController) ActionAddArticleSort() {
+	Title := this.Input().Get("articlesorttitle")
+	if Title != "" {
+		models.AddArticleSort(Title)
+		this.Data["IsSort"] = true
+		this.Data["ArticleSorts"], _ = models.GetAllArticleSorts()
+		this.Data["PhotoSorts"], _ = models.GetAllPhotoSorts()
+		this.TplNames = "admin.html"
+	}
 	this.Redirect("/admin?ob=sort", 302)
 	return
 }
 
-func (this *AdminController) AddPhoto() {
-	fmt.Println("自动路由调用AddPhotot方法")
+func (this *AdminController) ActionAddPhoto() {
+	Titile := this.Input().Get("phototitle")
+	Url := this.Input().Get("photourl")
+	Psi := this.Input().Get("photosortid")
+	if Titile != "" && Url != "" && Psi != "" {
+		Sid, _ := strconv.ParseInt(Psi, 10, 64)
+		models.AddPhoto(Titile, Url, Sid)
+		this.Data["IsPhoto"] = true
+		this.Data["PhotoSort"], _ = models.GetAllPhotoSorts()
+		this.Data["Photo"], _ = models.GetAllPhotos()
+		this.TplNames = "admin.html"
+	}
 	this.Redirect("/admin?ob=sort", 302)
 	return
 }
 
-func (this *AdminController) AddPhotoSort() {
-	fmt.Println("自动路由调用AddPhotoSort方法")
+func (this *AdminController) ActionAddPhotoSort() {
+	Title := this.Input().Get("photosorttitle")
+	if Title != "" {
+		models.AddArticleSort(Title)
+		this.Data["IsSort"] = true
+		this.Data["ArticleSorts"], _ = models.GetAllArticleSorts()
+		this.Data["PhotoSorts"], _ = models.GetAllPhotoSorts()
+		this.TplNames = "admin.html"
+	}
+	this.Redirect("/admin?ob=sort", 302)
+	return
 }
 
-func (this *AdminController) UpdateArticle() {
-	fmt.Println("自动路由调用UpdateArticle方法")
+func (this *AdminController) ActionUpdateArticle() {
+	Aid := this.Input().Get("ArticleId")
+	Title := this.Input().Get("ArticleTitle")
+	Content := this.Input().Get("ArticleContent")
+	ASid := this.Input().Get("ArticleSort")
+	if Aid != "" && Title != "" && Content != "" && Aid != "" {
+		Sid, _ := strconv.ParseInt(ASid, 10, 64)
+		Id, _ := strconv.ParseInt(Aid, 10, 64)
+		models.UpdateArticle(Id, Title, Content, Sid)
+	}
+	this.Redirect("/admin?ob=blog", 302)
+	return
 }
 
-func (this *AdminController) UpdateArticleSort() {
+func (this *AdminController) ActionUpdateArticleSort() {
 	fmt.Println("自动路由调用UpdateArticleSort方法")
+	this.Redirect("/admin", 302)
+	return
 }
 
-func (this *AdminController) UpdatePhoto() {
+func (this *AdminController) ActionUpdatePhoto() {
 	fmt.Println("自动路由调用UpdatePhoto方法")
+	this.Redirect("/admin", 302)
+	return
 }
 
-func (this *AdminController) UpdatePhotoSort() {
+func (this *AdminController) ActionUpdatePhotoSort() {
 	fmt.Println("自动路由调用UpdatePhotoSort方法")
+	this.Redirect("/admin", 302)
+	return
 }
