@@ -200,7 +200,18 @@ func (this *AdminController) ActionAddArticle() {
 	ArticleSortId := this.Input().Get("ArticleSort")
 	if Title != "" && Content != "" && ArticleSortId != "" {
 		id, _ := strconv.ParseInt(ArticleSortId, 10, 64)
-		models.AddArticle(Title, Content, id)
+		erraa := models.AddArticle(Title, Content, id)
+		erruc := models.UpdateArticleSortCount(id)
+		if erraa != nil {
+			erraa.Error()
+			this.Redirect("/", 302)
+			return
+		}
+		if erruc != nil {
+			erruc.Error()
+			this.Redirect("/", 302)
+			return
+		}
 		this.Data["IsBlog"] = true
 		artilcesorts, errs := models.GetAllArticleSorts()
 		article, erra := models.GetAllArticles()
@@ -259,8 +270,19 @@ func (this *AdminController) ActionAddPhoto() {
 	Url := this.Input().Get("photourl")
 	Psi := this.Input().Get("photosortid")
 	if Titile != "" && Url != "" && Psi != "" {
-		Sid, _ := strconv.ParseInt(Psi, 10, 64)
-		models.AddPhoto(Titile, Url, Sid)
+		id, _ := strconv.ParseInt(Psi, 10, 64)
+		errap := models.AddPhoto(Titile, Url, id)
+		if errap != nil {
+			errap.Error()
+			this.Redirect("/", 302)
+			return
+		}
+		erruc := models.UpdataPhotoSortCount(id)
+		if erruc != nil {
+			erruc.Error()
+			this.Redirect("/", 302)
+			return
+		}
 		this.Data["IsPhoto"] = true
 		photosort, errs := models.GetAllPhotoSorts()
 		photo, errp := models.GetAllPhotos()
@@ -278,8 +300,6 @@ func (this *AdminController) ActionAddPhoto() {
 		this.Data["Photo"] = photo
 		this.TplNames = "admin.html"
 	}
-	this.Redirect("/admin?ob=sort", 302)
-	return
 }
 
 func (this *AdminController) ActionAddPhotoSort() {

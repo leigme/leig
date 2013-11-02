@@ -120,10 +120,10 @@ func UpdateArticleSort(id int64, name string) error {
 }
 
 //更新文章分类统计
-func UpdateArticleSortCount(id int64, count int64) error {
+func UpdateArticleSortCount(id int64) error {
 	o := orm.NewOrm()
 	articlesort := ArticleSort{Id: id}
-	articlesort.Count = count + 1
+	articlesort.Count = articlesort.Count + 1
 	_, err := o.Update(&articlesort, "Count")
 	return err
 }
@@ -245,10 +245,10 @@ func UpdatePhotoSort(id int64, name string) error {
 }
 
 //更新图片分类统计数
-func UpdataPhotoSortCount(id int64, count int64) error {
+func UpdataPhotoSortCount(id int64) error {
 	o := orm.NewOrm()
 	photosort := PhotoSort{Id: id}
-	photosort.Count = count + 1
+	photosort.Count = photosort.Count + 1
 	_, err := o.Update(&photosort, "Count")
 	return err
 }

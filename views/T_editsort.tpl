@@ -19,7 +19,7 @@
 				{{range .ArticleSorts}}
 				<tr>
 					<td>{{.Id}}</td>
-					<td>{{.Title}}</td>
+					<td><a href="/admin?ob=sort&op=updateas&id={{.Id}}&title={{.Title}}">{{.Title}}</a></td>
 					<td>{{.Count}}</td>
 					<td>
 						<a href="/admin?ob=sort&op=delarticle&id={{.Id}}">删除</a>
@@ -50,7 +50,7 @@
 				{{range .PhotoSorts}}
 				<tr>
 					<td>{{.Id}}</td>
-					<td>{{.Title}}</td>
+					<td><a href="/admin?ob=sort&op=updateps&id={{.Id}}&title={{.Title}}">{{.Title}}</a></td>
 					<td>{{.Count}}</td>
 					<td>
 						<a href="/admin?ob=sort&op=delphoto&id={{.Id}}">删除</a>
